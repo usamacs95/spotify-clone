@@ -40,7 +40,35 @@ masterPlay.addEventListener('click', ()=>{
 audioElement.addEventListener('timeupdate', ()=>{
     console.log('timeupdate');
     //here we are updating the seekbar.
-    progress = parseInt((audioElement.currentTime/audioElement.duration)* 100);
-    console.log(progress);
+   // progress = parseInt((audioElement.currentTime/audioElement.duration)* 100);
+   // console.log(progress);
+    //myProgressBar.value = progress;
+
+    myProgressBar.addEventListener('change', function() {
+        // Calculate the new time
+        let time = audioElement.duration * (myProgressBar.value / 100);
     
+        // Update the time
+        audioElement.currentTime = time;
+    });
+// Update the seek bar as the audio plays
+audioElement.addEventListener('timeupdate', function() {
+    // Calculate the slider value
+    let value = (100 / audioElement.duration) * audioElement.currentTime;
+
+    // Update the slider value
+    myProgressBar.value = value;
+});
+
+// Pause the audio when the seek handle is being dragged
+myProgressBar.addEventListener('mousedown', function() {
+    audioElement.pause();
+});
+
+// Play the audio when the seek handle is dropped
+myProgressBar.addEventListener('mouseup', function() {
+    audioElement.play();
+});
+
+
 });
